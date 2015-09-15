@@ -71,7 +71,7 @@ func (c *Config) SendEmailHTML(from, to, subject, bodyText, bodyHTML string) (st
 
 // SendEmailHTMLReplyTo sends a HTML email with a ReplyTo Field. Note that from and reply-to must be a verified address
 // in the AWS control panel.
-func (c *Config) SendEmailHTML(from, to, reply_to, subject, bodyText, bodyHTML string) (string, error) {
+func (c *Config) SendEmailHTMLReplyTo(from, to, reply_to, subject, bodyText, bodyHTML string) (string, error) {
 	data := make(url.Values)
 	data.Add("Action", "SendEmail")
 	data.Add("Source", from)
