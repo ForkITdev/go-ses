@@ -69,6 +69,22 @@ func (c *Config) SendEmailHTML(from, to, subject, bodyText, bodyHTML string) (st
 	return sesPost(data, c.Endpoint, c.AccessKeyID, c.SecretAccessKey)
 }
 
+// SendEmailHTMLReplyTo sends a HTML email with a ReplyTo Field. Note that from and reply-to must be a verified address
+// in the AWS control panel.
+func (c *Config) SendEmailHTML(from, to, reply_to, subject, bodyText, bodyHTML string) (string, error) {
+	data := make(url.Values)
+	data.Add("Action", "SendEmail")
+	data.Add("Source", from)
+	data.Add("Destination.ToAddresses.member.1", to)
+	data.Add("ReplyToAddresses.member.1", reply_to)
+	data.Add("Message.Subject.Data", subject)
+	data.Add("Message.Body.Text.Data", bodyText)
+	data.Add("Message.Body.Html.Data", bodyHTML)
+	data.Add("AWSAccessKeyId", c.AccessKeyID)
+
+	return sesPost(data, c.Endpoint, c.AccessKeyID, c.SecretAccessKey)
+}
+
 // SendRawEmail sends a raw email. Note that from must be a verified address
 // in the AWS control panel.
 func (c *Config) SendRawEmail(raw []byte) (string, error) {
